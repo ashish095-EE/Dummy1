@@ -8,7 +8,7 @@ public class camerafolow : MonoBehaviour
 
    public Vector3 offset;
 
-   void FixedUpdate() 
+   void LateUpdate() 
    {
         Vector3 desiredPosition = target.position+ offset;
         Vector3 smoothedPosition = Vector3.Lerp(target.position, desiredPosition, smoothSpeed);//linear interpolation(lerp)
