@@ -9,6 +9,8 @@ public class playermovement : MonoBehaviour
     private float forwardInput;
     private Rigidbody playerRb;
     public bool isOnGround = true;
+    public int maxJumpcout  =2;
+    public int jumpRemaining = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -30,22 +32,45 @@ public class playermovement : MonoBehaviour
 
          // player jump
 
-         if(Input.GetKeyDown(KeyCode.Space) && isOnGround){
+         if(Input.GetKeyDown(KeyCode.Space) && jumpRemaining > 0){
 
             playerRb.AddForce(Vector3.up * Jumpforce, ForceMode.Impulse);
-            isOnGround = false;
+            jumpRemaining-=1;// reduce number of jump mid air
+            
          }
 
 
 
+
+
         
     }
 
-    private void OnCollisionEnter(Collision collision) {
-
-        if(collision.gameObject.CompareTag("ground")){
+    
+          
+    public void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == "ground")
+        {
             isOnGround = true;
+            jumpRemaining  = maxJumpcout;//reset no of jumps once we hit the ground.
         }
-        
+            
+         
+
     }
+
+    public void OnCollisionExit(Collision collision)
+    {
+        if(collision.gameObject.tag == "ground")
+        {
+            isOnGround = false;
+        }
+            
+         
+
+    }
+    
+
+   
 }
