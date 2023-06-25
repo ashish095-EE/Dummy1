@@ -1,4 +1,4 @@
-
+using Photon.Pun;
 using UnityEngine;
 
 public class playermovement : MonoBehaviour
@@ -11,17 +11,19 @@ public class playermovement : MonoBehaviour
     public bool isOnGround = true;
     public int maxJumpcout  =2;
     public int jumpRemaining = 0;
-
+    PhotonView view;
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         playerRb = GetComponent<Rigidbody>();
-        
+        view = GetComponent<PhotonView>();
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
+        if(view.IsMine){
+
         //get player input
         horizontalInput = Input.GetAxis("Horizontal");
         forwardInput  = Input.GetAxis("Vertical");
@@ -36,18 +38,10 @@ public class playermovement : MonoBehaviour
 
             playerRb.AddForce(Vector3.up * Jumpforce, ForceMode.Impulse);
             jumpRemaining-=1;// reduce number of jump mid air
-            
          }
-
-
-
-
-
-        
+        }
     }
 
-    
-          
     public void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.tag == "ground")
@@ -55,9 +49,6 @@ public class playermovement : MonoBehaviour
             isOnGround = true;
             jumpRemaining  = maxJumpcout;//reset no of jumps once we hit the ground.
         }
-            
-         
-
     }
 
     public void OnCollisionExit(Collision collision)
@@ -66,11 +57,5 @@ public class playermovement : MonoBehaviour
         {
             isOnGround = false;
         }
-            
-         
-
     }
-    
-
-   
 }
