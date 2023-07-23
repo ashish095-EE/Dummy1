@@ -15,7 +15,7 @@ public class camerafollow : MonoBehaviour
 
         transform.position = smoothedPosition;
 
-        //transform.Lookat(target);
+        transform.LookAt(target);
     
    }
 }
